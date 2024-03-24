@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.vsidx
+/PhotoWallArt/.vs/PhotoWallArt/config
+/PhotoWallArt/.vs/PhotoWallArt/DesignTimeBuild
+/PhotoWallArt/.vs/PhotoWallArt/v17
+/PhotoWallArt/.vs/ProjectEvaluation
