@@ -1,0 +1,14 @@
+{
+  "SwaggerSettings": {
+    "Enable": true,
+    "Title": "PhotoWallArt BackEnd - .NET 8 WebAPI",
+    "Version": "1.0.0",
+    "Description": "This is the swagger documentation for the Bamba Back End API",
+    "ContactName": "",
+    "ContactEmail": "",
+    "ContactUrl": ""
+    //"License": true,
+    //"LicenseName": "MIT License",
+    //"LicenseUrl": ""
+  }
+}

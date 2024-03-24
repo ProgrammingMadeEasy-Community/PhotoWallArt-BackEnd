@@ -1,0 +1,17 @@
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\bin\Debug\net8.0\Persistence.deps.json
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\bin\Debug\net8.0\Persistence.runtimeconfig.json
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\bin\Debug\net8.0\Persistence.dll
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\bin\Debug\net8.0\Persistence.pdb
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\bin\Debug\net8.0\Domain.dll
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\bin\Debug\net8.0\Domain.pdb
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.csproj.AssemblyReference.cache
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.AssemblyInfoInputs.cache
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.AssemblyInfo.cs
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.csproj.CoreCompileInputs.cache
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.csproj.CopyComplete
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.dll
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\refint\Persistence.dll
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.pdb
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\Persistence.genruntimeconfig.cache
+C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Persistence\obj\Debug\net8.0\ref\Persistence.dll

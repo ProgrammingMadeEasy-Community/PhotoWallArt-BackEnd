@@ -1,0 +1,7 @@
+{
+  "LoggerSettings": {
+    "AppName": "PhotoWallArt",
+    "WriteToFile": false,
+    "StructuredConsoleLogging": true
+  }
+}

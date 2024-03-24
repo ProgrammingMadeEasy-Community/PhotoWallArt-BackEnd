@@ -1,0 +1,19 @@
+{
+  "LoggerSettings": {
+    "AppName": "PhotoWallArt",
+    "ElasticSearchUrl": "http://localhost:9200",
+    "WriteToFile": true,
+    "StructuredConsoleLogging": false,
+
+    "WriteTo": {
+      "ConnectionString": "Server = VATP-L-DEV2;User ID = sa; Password=SQL@7; Database=photowalldb; TrustServerCertificate=True; Trusted_Connection=True;",
+      "sinkOptionsSection": {
+        "tableName": "Logs",
+        "schemaName": "EventLogging",
+        "autoCreateSqlTable": true,
+        "restrictedToMinimumLevel": "Warning"
+      }
+
+    }
+  }
+}
