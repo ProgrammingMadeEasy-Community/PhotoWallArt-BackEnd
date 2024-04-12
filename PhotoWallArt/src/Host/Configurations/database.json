@@ -1,0 +1,6 @@
+{
+  "DatabaseSettings": {
+    "DBProvider": "mssql",
+    "ConnectionString": "Server = VATP-L-DEV2;User ID = sa; Password=SQL@7; Database=photowalldb; TrustServerCertificate=True; Trusted_Connection=True;"
+  }
+}

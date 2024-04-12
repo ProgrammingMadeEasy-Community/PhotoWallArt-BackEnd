@@ -1,0 +1,14 @@
+{
+  "SwaggerSettings": {
+    "Enable": true,
+    "Title": "PhotoWallArt",
+    "Version": "1.0.0",
+    "Description": "PME PhotoWallArt BackEnd",
+    "ContactName": "PME",
+    "ContactEmail": "@PME",
+    "ContactUrl": "@PME",
+    "License": true,
+    "LicenseName": "MIT License",
+    "LicenseUrl": ""
+  }
+}

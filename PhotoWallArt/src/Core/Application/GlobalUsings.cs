@@ -1,0 +1,17 @@
+global using Ardalis.Specification;
+global using FluentValidation;
+global using MediatR;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
+global using PhotoWallArt.Application.Common.Events;
+global using PhotoWallArt.Application.Common.Exceptions;
+global using PhotoWallArt.Application.Common.FileStorage;
+global using PhotoWallArt.Application.Common.Interfaces;
+global using PhotoWallArt.Application.Common.Models;
+global using PhotoWallArt.Application.Common.Persistence;
+global using PhotoWallArt.Application.Common.Specification;
+global using PhotoWallArt.Application.Common.Validation;
+global using PhotoWallArt.Domain.Catalog;
+global using PhotoWallArt.Domain.Common;
+global using PhotoWallArt.Domain.Common.Contracts;
+global using PhotoWallArt.Shared.Notifications;
