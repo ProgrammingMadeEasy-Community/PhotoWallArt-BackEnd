@@ -5,6 +5,7 @@
         <AssemblyName>PhotoWallArt.Domain</AssemblyName>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="MediatR" Version="11.0.0" />
         <PackageReference Include="NewId" Version="4.0.1" />
     </ItemGroup>
     <ItemGroup>
