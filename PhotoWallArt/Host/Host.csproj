@@ -7,7 +7,7 @@
     <UserSecretsId>0d2a9ee7-34d2-4f04-ab79-0e8378e1a02e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>C:\Users\WilliamsAbraham\Desktop\PhotoWallArt\Host\PhotoWallArt.Xml</DocumentationFile>
+    <DocumentationFile>C:\Users\Intelligra\Desktop\PhotoWallArt-BackEnd\PhotoWallArt\Host\PhotoWallArt.Xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities.Orders;
 
 namespace Persistence
 {
@@ -39,6 +40,8 @@ namespace Persistence
                 .ToTable("ApplicationUserRole");
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+
         
     }
 }
