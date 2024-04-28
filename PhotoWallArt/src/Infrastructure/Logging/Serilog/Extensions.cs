@@ -1,3 +1,4 @@
+using DocumentFormat.OpenXml.Vml.Spreadsheet;
 using Figgle;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
+using Serilog.Sinks.MSSqlServer;
 using System.Reflection;
 
 namespace PhotoWallArt.Infrastructure.Logging.Serilog;
@@ -15,10 +17,17 @@ public static class Extensions
     public static void RegisterSerilog(this WebApplicationBuilder builder)
     {
         builder.Services.AddOptions<LoggerSettings>().BindConfiguration(nameof(LoggerSettings));
+        builder.Services.AddOptions<WriteTo>().BindConfiguration(nameof(WriteTo));
 
         _ = builder.Host.UseSerilog((_, sp, serilogConfig) =>
         {
             var loggerSettings = sp.GetRequiredService<IOptions<LoggerSettings>>().Value;
+            var writeTo = sp.GetRequiredService<IOptions<WriteTo>>().Value;
+            var sinkOptions = writeTo.SinkOptionsSection;
+            string connectionString = writeTo.ConnectionString;
+
+            var columnConfig = builder.Configuration.GetSection("columnOptionsSection");
+
             string appName = loggerSettings.AppName;
             string elasticSearchUrl = loggerSettings.ElasticSearchUrl;
             bool writeToFile = loggerSettings.WriteToFile;
@@ -26,7 +35,7 @@ public static class Extensions
             string minLogLevel = loggerSettings.MinimumLogLevel;
             ConfigureEnrichers(serilogConfig, appName);
             ConfigureConsoleLogging(serilogConfig, structuredConsoleLogging);
-            ConfigureWriteToFile(serilogConfig, writeToFile);
+            ConfigureWriteTo(serilogConfig, sinkOptions, connectionString, columnConfig);
             ConfigureElasticSearch(builder, serilogConfig, appName, elasticSearchUrl);
             SetMinimumLogLevel(serilogConfig, minLogLevel);
             OverideMinimumLogLevel(serilogConfig);
@@ -58,17 +67,19 @@ public static class Extensions
         }
     }
 
-    private static void ConfigureWriteToFile(LoggerConfiguration serilogConfig, bool writeToFile)
+    private static void ConfigureWriteTo(LoggerConfiguration serilogConfig, SinkOptionsSection Options, string connectionString, IConfiguration columnConfig)
     {
-        if (writeToFile)
-        {
-            serilogConfig.WriteTo.File(
-             new CompactJsonFormatter(),
-             "Logs/logs.json",
-             restrictedToMinimumLevel: LogEventLevel.Information,
-             rollingInterval: RollingInterval.Day,
-             retainedFileCountLimit: 5);
-        }
+        _ = serilogConfig.WriteTo.MSSqlServer(
+         connectionString:
+                 connectionString,
+         restrictedToMinimumLevel: LogEventLevel.Error,
+         sinkOptions: new MSSqlServerSinkOptions
+         {
+             TableName = Options.TableName,
+             AutoCreateSqlTable = Options.AutoCreateSqlTable,
+
+         },
+         columnOptionsSection: (IConfigurationSection)columnConfig);
     }
 
     private static void ConfigureElasticSearch(WebApplicationBuilder builder, LoggerConfiguration serilogConfig, string appName, string elasticSearchUrl)

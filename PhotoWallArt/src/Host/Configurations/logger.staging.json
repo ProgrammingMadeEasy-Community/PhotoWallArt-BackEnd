@@ -3,5 +3,31 @@
     "AppName": "PhotoWallArt",
     "WriteToFile": false,
     "StructuredConsoleLogging": true
-  }
+  },
+
+  "WriteTo": {
+      "ConnectionString": "Server = VATP-L-DEV2;User ID = sa; Password=SQL@7; Database=photowalldb; TrustServerCertificate=True; Trusted_Connection=True;",
+      "sinkOptionsSection": {
+        "tableName": "Logs",
+        "autoCreateSqlTable": true
+      },
+      "columnOptionsSection": {
+        "addStandardColumns": [ "LogEvent" ],
+        "removeStandardColumns": [ "Properties" ],
+        "additionalColumns": [
+          {
+            "ColumnName": "Properties",
+            "DataType": "nvarchar(max)",
+            "AllowNull": true,
+            "DataLength": -1
+          },
+          {
+            "ColumnName": "UniqueId",
+            "DataType": "nvarchar",
+            "DataLength": 50
+          }
+        ]
+      }
+    }
 }
+  

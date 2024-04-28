@@ -1,8 +1,10 @@
+using Hangfire;
 using PhotoWallArt.Application;
 using PhotoWallArt.Host.Configurations;
 using PhotoWallArt.Host.Controllers;
 using PhotoWallArt.Infrastructure;
 using PhotoWallArt.Infrastructure.Common;
+using PhotoWallArt.Infrastructure.Common.Services;
 using PhotoWallArt.Infrastructure.Logging.Serilog;
 using Serilog;
 using Serilog.Formatting.Compact;
@@ -25,6 +27,8 @@ try
     await app.Services.InitializeDatabasesAsync();
 
     app.UseInfrastructure(builder.Configuration);
+    RecurringJob.AddOrUpdate<LogCleanupService>("DeleteOldLogs", service => service.DeleteOldLogs(), Cron.Daily);
+
     app.MapEndpoints();
     app.Run();
 }

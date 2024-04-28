@@ -1,13 +1,16 @@
+using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using PhotoWallArt.Infrastructure.Auth;
 using PhotoWallArt.Infrastructure.BackgroundJobs;
 using PhotoWallArt.Infrastructure.Caching;
 using PhotoWallArt.Infrastructure.Common;
+using PhotoWallArt.Infrastructure.Common.Services;
 using PhotoWallArt.Infrastructure.Cors;
 using PhotoWallArt.Infrastructure.FileStorage;
 using PhotoWallArt.Infrastructure.Localization;
@@ -51,6 +54,13 @@ public static class Startup
             .AddPersistence()
             .AddRequestLogging(config)
             .AddRouting(options => options.LowercaseUrls = true)
+            .AddSingleton(
+            provider =>
+            {
+                var logger = provider.GetRequiredService<ILogger<LogCleanupService>>();
+                return new LogCleanupService(config, logger);
+
+            })
             .AddServices();
     }
 

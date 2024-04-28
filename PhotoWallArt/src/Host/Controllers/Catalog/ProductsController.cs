@@ -1,4 +1,5 @@
 ﻿using PhotoWallArt.Application.Catalog.Products;
+using PhotoWallArt.Application.Common.ResponseObject;
 
 namespace PhotoWallArt.Host.Controllers.Catalog;
 public class ProductsController : VersionedApiController
@@ -12,7 +13,8 @@ public class ProductsController : VersionedApiController
     }
 
     [HttpGet("{id:guid}")]
-    [MustHavePermission(FSHAction.View, FSHResource.Products)]
+    //[MustHavePermission(FSHAction.View, FSHResource.Products)]
+    [AllowAnonymous]
     [OpenApiOperation("Get product details.", "")]
     public Task<ProductDetailsDto> GetAsync(Guid id)
     {
@@ -30,7 +32,7 @@ public class ProductsController : VersionedApiController
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.Products)]
     [OpenApiOperation("Create a new product.", "")]
-    public Task<Guid> CreateAsync(CreateProductRequest request)
+    public Task<ApiResponse<Guid>> CreateAsync(CreateProductRequest request)
     {
         return Mediator.Send(request);
     }

@@ -1,4 +1,5 @@
 ﻿using PhotoWallArt.Application.Catalog.Brands;
+using PhotoWallArt.Application.Common.ResponseObject;
 
 namespace PhotoWallArt.Host.Controllers.Catalog;
 public class BrandsController : VersionedApiController
@@ -12,11 +13,12 @@ public class BrandsController : VersionedApiController
     }
 
     [HttpGet("{id:guid}")]
-    [MustHavePermission(FSHAction.View, FSHResource.Brands)]
+    // [MustHavePermission(FSHAction.View, FSHResource.Brands)]
+    [AllowAnonymous]
     [OpenApiOperation("Get brand details.", "")]
-    public Task<BrandDto> GetAsync(Guid id)
+    public async Task<ApiResponse<BrandDto>> GetAsync(Guid id)
     {
-        return Mediator.Send(new GetBrandRequest(id));
+        return await Mediator.Send(new GetBrandRequest(id));
     }
 
     [HttpPost]
