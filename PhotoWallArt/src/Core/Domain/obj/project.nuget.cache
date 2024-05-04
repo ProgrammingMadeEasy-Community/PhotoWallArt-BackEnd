@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "N6bvH2PF1W7l7z9WYW5ABAg9IX6/eEa+uEnIsEAXvlGZp0h7Pmvg96jD2J/oWDGs4f4Ti5SQPvA6q7Fu9vu8DQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\src\\Core\\Domain\\Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\newid\\4.0.1\\newid.4.0.1.nupkg.sha512",
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\roslynator.analyzers\\4.2.0\\roslynator.analyzers.4.2.0.nupkg.sha512",
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\stylecop.analyzers\\1.2.0-beta.435\\stylecop.analyzers.1.2.0-beta.435.nupkg.sha512",
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\stylecop.analyzers.unstable\\1.2.0.435\\stylecop.analyzers.unstable.1.2.0.435.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "QBnnvHmzYOJcUhP9kyV3Ys+swCWyobd0ZFoGeW3TqUa8QKkMTTDaQFhF6hCISCq2Q9ixDsXXQyL1nq+hxAAkeQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\src\\Core\\Shared\\Shared.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\roslynator.analyzers\\4.2.0\\roslynator.analyzers.4.2.0.nupkg.sha512",
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\stylecop.analyzers\\1.2.0-beta.435\\stylecop.analyzers.1.2.0-beta.435.nupkg.sha512",
+    "C:\\Users\\JosephNgere\\.nuget\\packages\\stylecop.analyzers.unstable\\1.2.0.435\\stylecop.analyzers.unstable.1.2.0.435.nupkg.sha512"
+  ],
+  "logs": []
+}
