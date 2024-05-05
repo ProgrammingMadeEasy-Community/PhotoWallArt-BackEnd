@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZmetIod4QOdxD+aE3ZHNuGXv/ZUtd7C4aMnbLHERwF4sxfKhLndBqClDpAFY/t4mTRwth65RtmQ/RAG/1Q3CZw==",
+  "dgSpecHash": "HX8JK/zVhwURZTObSq5G6RsttFIdt+Iiq32Ve94FtX8tE4RkJDV0c1hodoaFBXgJWMLjRgKCjjpq/lag5GDJeg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj",
+  "projectFilePath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JosephNgere\\.nuget\\packages\\azure.core\\1.36.0\\azure.core.1.36.0.nupkg.sha512",
     "C:\\Users\\JosephNgere\\.nuget\\packages\\azure.identity\\1.10.4\\azure.identity.1.10.4.nupkg.sha512",

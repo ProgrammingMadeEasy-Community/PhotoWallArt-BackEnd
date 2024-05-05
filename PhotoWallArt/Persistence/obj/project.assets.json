@@ -5210,11 +5210,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj",
+      "projectUniqueName": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj",
       "projectName": "Persistence",
-      "projectPath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj",
+      "projectPath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj",
       "packagesPath": "C:\\Users\\JosephNgere\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\obj\\",
+      "outputPath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -5234,8 +5234,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Domain\\Domain.csproj"
+            "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Domain\\Domain.csproj"
             }
           }
         }

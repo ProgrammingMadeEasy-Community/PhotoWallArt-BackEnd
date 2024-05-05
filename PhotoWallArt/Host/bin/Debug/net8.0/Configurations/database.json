@@ -1,5 +1,7 @@
 {
   "DatabaseSettings": {
-    "ConnectionString": "Server = INTELLIGRA\\SQLEXPRESS; Initial Catalog =photowalldb; TrustServerCertificate=True; Trusted_Connection=True;"
+    //"ConnectionString": "Server = INTELLIGRA\\SQLEXPRESS; Initial Catalog =photowalldb; TrustServerCertificate=True; Trusted_Connection=True;"
+    "ConnectionString": "Data Source=VAT-L-DEV9\\MSSQLSERVER01; Initial Catalog=photowalldb;User Id=photowalldb; Password=123;Integrated Security=True;TrustServerCertificate=True"
+
   }
 }

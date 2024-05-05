@@ -21,7 +21,7 @@
     },
     "Storage": {
       "StorageProvider": "mssql",
-      "ConnectionString": "Server = VATP-L-DEV2;User ID = sa; Password=SQL@7; Database=photowalldb; TrustServerCertificate=True; Trusted_Connection=True;",
+      "ConnectionString": "Data Source=VAT-L-DEV9\\MSSQLSERVER01; Initial Catalog=photowalldb;Integrated Security=True;TrustServerCertificate=True",
 
       "Options": {
         "CommandBatchMaxTimeout": "00:05:00",

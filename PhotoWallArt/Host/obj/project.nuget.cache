@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vohS490hKkbZK675M9JAYIpaBsW/YZYIZilj5v1pe3Pomf/mEF+Pr4XtEUFRA5NWQ8+cT77EiGBk/zAsE4hs1A==",
+  "dgSpecHash": "werg0ywxFClXVLue+CHBu8TWaYXM1jiBah/f3tDRPVQRIKiKoA1aBAVb8/i3fxCqMSul6YYoAArtKXQxfLBg7w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Host\\Host.csproj",
+  "projectFilePath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Host\\Host.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JosephNgere\\.nuget\\packages\\asp.versioning.abstractions\\8.0.0\\asp.versioning.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\JosephNgere\\.nuget\\packages\\asp.versioning.http\\8.0.0\\asp.versioning.http.8.0.0.nupkg.sha512",

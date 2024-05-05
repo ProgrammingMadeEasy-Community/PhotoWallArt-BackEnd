@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4SsmzotWRZRn9LcOYa+lAmxK5LSFDGAagt6dhjy3pbIwL5N77MqRhE3TXqSPu4a42YlVafF0vtPxRhYil7FxLw==",
+  "dgSpecHash": "EGKKSPLkhyUzrOuyBGlY5SqpXRqxqkpOWasLMICz0SIoXrTeMcwP0ig1aXIT3tr0fXB9x9MgrELo7YjestEcKg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Application\\Application.csproj",
+  "projectFilePath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JosephNgere\\.nuget\\packages\\azure.core\\1.36.0\\azure.core.1.36.0.nupkg.sha512",
     "C:\\Users\\JosephNgere\\.nuget\\packages\\azure.identity\\1.10.4\\azure.identity.1.10.4.nupkg.sha512",

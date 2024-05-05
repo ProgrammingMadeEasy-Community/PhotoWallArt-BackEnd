@@ -10231,11 +10231,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Infrastructure\\Infrastructure.csproj",
+      "projectPath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Infrastructure\\Infrastructure.csproj",
       "packagesPath": "C:\\Users\\JosephNgere\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Infrastructure\\obj\\",
+      "outputPath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -10255,11 +10255,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Domain\\Domain.csproj"
+            "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Domain\\Domain.csproj"
             },
-            "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj": {
-              "projectPath": "C:\\Users\\JosephNgere\\Source\\Repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj"
+            "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj": {
+              "projectPath": "C:\\Users\\JosephNgere\\source\\repos\\PhotoWallArt-BackEnd\\PhotoWallArt\\Persistence\\Persistence.csproj"
             }
           }
         }
