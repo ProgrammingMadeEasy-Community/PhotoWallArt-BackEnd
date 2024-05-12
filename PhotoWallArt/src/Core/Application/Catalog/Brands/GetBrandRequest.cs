@@ -35,13 +35,13 @@ public class GetBrandRequestHandler : IRequestHandler<GetBrandRequest, ApiRespon
             {
                 response.Message = "Brand Found";
                 response.Data = data;
-                response.Status = ResponseStatus.True.ToString();
+                response.Status = true;
                 response.StatusCode = ResponseStatusCode.Found;
             }
 
             response.Message = "Brand not Found";
             response.Data = null;
-            response.Status = ResponseStatus.False.ToString();
+            response.Status = false;
             response.StatusCode = ResponseStatusCode.NotFound;
 
             return response;
@@ -50,7 +50,7 @@ public class GetBrandRequestHandler : IRequestHandler<GetBrandRequest, ApiRespon
         {
             response.Message = ex.Message;
             response.Data = null;
-            response.Status = ResponseStatus.InternalServerError.ToString();
+            response.Status = false;
             response.StatusCode = ResponseStatusCode.InternalServerError;
             return response;
         }
