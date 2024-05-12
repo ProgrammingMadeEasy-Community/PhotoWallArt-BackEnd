@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace PhotoWallArt.Infrastructure.Common.Services;
+namespace PhotoWallArt.Host.BackGroundServices;
 
 public class LogCleanupService
 {

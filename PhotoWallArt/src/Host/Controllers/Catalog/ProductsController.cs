@@ -13,7 +13,7 @@ public class ProductsController : VersionedApiController
     }
 
     [HttpGet("{id:guid}")]
-    //[MustHavePermission(FSHAction.View, FSHResource.Products)]
+    [MustHavePermission(FSHAction.View, FSHResource.Products)]
     [AllowAnonymous]
     [OpenApiOperation("Get product details.", "")]
     public Task<ProductDetailsDto> GetAsync(Guid id)
@@ -29,13 +29,13 @@ public class ProductsController : VersionedApiController
         return Mediator.Send(new GetProductViaDapperRequest(id));
     }
 
-    [HttpPost]
-    [MustHavePermission(FSHAction.Create, FSHResource.Products)]
-    [OpenApiOperation("Create a new product.", "")]
-    public Task<ApiResponse<Guid>> CreateAsync(CreateProductRequest request)
-    {
-        return Mediator.Send(request);
-    }
+    //[HttpPost]
+    //[MustHavePermission(FSHAction.Create, FSHResource.Products)]
+    //[OpenApiOperation("Create a new product.", "")]
+    //public Task<ApiResponse<Guid>> CreateAsync(CreateProductRequest request)
+    //{
+    //    return Mediator.Send(request);
+    //}
 
     [HttpPut("{id:guid}")]
     [MustHavePermission(FSHAction.Update, FSHResource.Products)]

@@ -1,4 +1,5 @@
 using Hangfire;
+using MimeKit.Encodings;
 using PhotoWallArt.Application.Common.Interfaces;
 using System.Linq.Expressions;
 
@@ -7,7 +8,6 @@ public class HangfireService : IJobService
 {
     public bool Delete(string jobId) =>
         BackgroundJob.Delete(jobId);
-
     public bool Delete(string jobId, string fromState) =>
         BackgroundJob.Delete(jobId, fromState);
 

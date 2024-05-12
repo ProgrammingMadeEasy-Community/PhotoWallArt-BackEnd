@@ -36,7 +36,7 @@ public class CreateProductRequestHandler : IRequestHandler<CreateProductRequest,
             await _repository.AddAsync(product, cancellationToken);
 
             response.Message = " Product created";
-            response.Status = ResponseStatus.True;
+            response.Status = ResponseStatus.True.ToString();
             response.StatusCode = ResponseStatusCode.Created;
             response.Data = product.Id;
 
@@ -46,7 +46,7 @@ public class CreateProductRequestHandler : IRequestHandler<CreateProductRequest,
         catch (Exception ex)
         {
             response.Message = ex.Message;
-            response.Status = ResponseStatus.Error;
+            response.Status = ResponseStatus.InternalServerError.ToString();
             response.StatusCode = ResponseStatusCode.InternalServerError;
             response.Data = Guid.Empty;
             return response;

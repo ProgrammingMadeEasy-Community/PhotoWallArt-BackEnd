@@ -54,13 +54,6 @@ public static class Startup
             .AddPersistence()
             .AddRequestLogging(config)
             .AddRouting(options => options.LowercaseUrls = true)
-            .AddSingleton(
-            provider =>
-            {
-                var logger = provider.GetRequiredService<ILogger<LogCleanupService>>();
-                return new LogCleanupService(config, logger);
-
-            })
             .AddServices();
     }
 

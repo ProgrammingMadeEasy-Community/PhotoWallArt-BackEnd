@@ -6,7 +6,7 @@ public class ApiResponse<T>
 {
     public string? Message { get; set; }
     public int? StatusCode { get; set; }
-    public ResponseStatus Status { get; set; }
+    public string? Status { get; set; }
     public T? Data { get; set; }
 }
 
@@ -15,7 +15,7 @@ public enum ResponseStatus
     True,
     False,
     Redirect,
-    Error
+    InternalServerError
 }
 
 public class ResponseStatusCode

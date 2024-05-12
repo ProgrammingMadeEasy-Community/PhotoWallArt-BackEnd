@@ -31,12 +31,11 @@ internal static class Startup
 
         services.AddSingleton<JobActivator, FSHJobActivator>();
 
-        services.AddHangfire((provider, hangfireConfig) => hangfireConfig
+         services.AddHangfire((provider, hangfireConfig) => hangfireConfig
             .UseDatabase(storageSettings.StorageProvider, storageSettings.ConnectionString, config)
             .UseFilter(new FSHJobFilter(provider))
-            .UseFilter(new LogJobFilter())
+            // .UseFilter(new LogJobFilter())
             .UseConsole());
-
         return services;
     }
 

@@ -12,14 +12,14 @@ public class BrandsController : VersionedApiController
         return Mediator.Send(request);
     }
 
-    [HttpGet("{id:guid}")]
-    // [MustHavePermission(FSHAction.View, FSHResource.Brands)]
-    [AllowAnonymous]
-    [OpenApiOperation("Get brand details.", "")]
-    public async Task<ApiResponse<BrandDto>> GetAsync(Guid id)
-    {
-        return await Mediator.Send(new GetBrandRequest(id));
-    }
+    //[HttpGet("{id:guid}")]
+    //[MustHavePermission(FSHAction.View, FSHResource.Brands)]
+    //[AllowAnonymous]
+    //[OpenApiOperation("Get brand details.", "")]
+    //public async Task<ApiResponse<BrandDto>> GetAsync(Guid id)
+    //{
+    //    return await Mediator.Send(new GetBrandRequest(id));
+    //}
 
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.Brands)]

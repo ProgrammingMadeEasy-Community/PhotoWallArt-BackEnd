@@ -37,6 +37,7 @@ internal class TokenService : ITokenService
         _securitySettings = securitySettings.Value;
     }
 
+
     public async Task<TokenResponse> GetTokenAsync(TokenRequest request, string ipAddress, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(_currentTenant?.Id)

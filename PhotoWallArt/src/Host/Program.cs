@@ -1,5 +1,7 @@
 using Hangfire;
 using PhotoWallArt.Application;
+using PhotoWallArt.Application.Common.Interfaces;
+using PhotoWallArt.Host.BackGroundServices;
 using PhotoWallArt.Host.Configurations;
 using PhotoWallArt.Host.Controllers;
 using PhotoWallArt.Infrastructure;
@@ -16,6 +18,7 @@ Log.Information("Server Booting Up...");
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    builder.Services.AddHttpContextAccessor();
 
     builder.AddConfigurations().RegisterSerilog();
     builder.Services.AddControllers();
@@ -25,12 +28,11 @@ try
     var app = builder.Build();
 
     await app.Services.InitializeDatabasesAsync();
-
     app.UseInfrastructure(builder.Configuration);
-    RecurringJob.AddOrUpdate<LogCleanupService>("DeleteOldLogs", service => service.DeleteOldLogs(), Cron.Daily);
 
     app.MapEndpoints();
     app.Run();
+    RecurringJob.AddOrUpdate<LogCleanupService>("DeleteOldLogs", service => service.DeleteOldLogs(), Cron.Daily);
 }
 catch (Exception ex) when (!ex.GetType().Name.Equals("StopTheHostException", StringComparison.Ordinal))
 {
