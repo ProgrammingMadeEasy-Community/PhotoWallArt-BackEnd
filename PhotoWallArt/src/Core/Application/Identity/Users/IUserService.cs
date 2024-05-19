@@ -1,3 +1,4 @@
+using PhotoWallArt.Application.Common.ResponseObject;
 using PhotoWallArt.Application.Identity.Users.Password;
 using System.Security.Claims;
 
@@ -10,11 +11,11 @@ public interface IUserService : ITransientService
     Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null);
     Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null);
 
-    Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken);
+    Task<ApiResponse<List<UserDetailsDto>>> GetListAsync(CancellationToken cancellationToken);
 
     Task<int> GetCountAsync(CancellationToken cancellationToken);
 
-    Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken);
+    Task<ApiResponse<UserDetailsDto>> GetAsync(string userId, CancellationToken cancellationToken);
 
     Task<List<UserRoleDto>> GetRolesAsync(string userId, CancellationToken cancellationToken);
     Task<string> AssignRolesAsync(string userId, UserRolesRequest request, CancellationToken cancellationToken);
