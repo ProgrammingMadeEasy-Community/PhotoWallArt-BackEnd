@@ -15,6 +15,24 @@ public class ApiResponse<T>
     public string Message { get; set; }
     [JsonPropertyName("data")]
     public T Data { get; set; }
+
+    [JsonPropertyName("Errors")]
+    public string[]? Errors { get; set; }
+}
+
+public class ApiResponse
+{
+    [JsonPropertyName("status")]
+    public bool Status { get; set; }
+
+    [JsonPropertyName("statusCode")]
+    public int? StatusCode { get; set; }
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; }
+
+    [JsonPropertyName("Errors")]
+    public string[]? Errors { get; set; }
 }
 
 public class ResponseStatusCode

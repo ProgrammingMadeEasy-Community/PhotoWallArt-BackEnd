@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Mapster;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using PhotoWallArt.Application.Common.Exceptions;
 using PhotoWallArt.Application.Common.Mailing;
+using PhotoWallArt.Application.Common.ResponseObject;
+using PhotoWallArt.Application.Identity.ResponseFactory;
 using PhotoWallArt.Application.Identity.Users;
 using PhotoWallArt.Domain.Common;
 using PhotoWallArt.Domain.Identity;
@@ -100,7 +103,7 @@ internal partial class UserService
         return user;
     }
 
-    public async Task<string> CreateAsync(CreateUserRequest request, string origin)
+    public async Task<ApiResponse> CreateAsync(CreateUserRequest request, string origin)
     {
         var user = new ApplicationUser
         {
@@ -115,12 +118,13 @@ internal partial class UserService
         var result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
         {
-            throw new InternalServerException(_t["Validation Errors Occurred."], result.GetErrors(_t));
+            return UserMgtResponse.CreateValidationError(result.GetErrors(_t).ToArray());
+
         }
 
         await _userManager.AddToRoleAsync(user, FSHRoles.Basic);
 
-        var messages = new List<string> { string.Format(_t["User {0} Registered."], user.UserName) };
+        //var messages = new List<string> { string.Format(_t["User {0} Registered."], user.UserName) };
 
         if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
         {
@@ -137,19 +141,23 @@ internal partial class UserService
                 _t["Confirm Registration"],
                 _templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
             _jobService.Enqueue(() => _mailService.SendAsync(mailRequest, CancellationToken.None));
-            messages.Add(_t[$"Please check {user.Email} to verify your account!"]);
+           // messages.Add(_t[$"Please check {user.Email} to verify your account!"]);
         }
 
         await _events.PublishAsync(new ApplicationUserCreatedEvent(user.Id));
 
-        return string.Join(Environment.NewLine, messages);
+        return UserMgtResponse.UserRegSuccessResponse();
     }
 
-    public async Task UpdateAsync(UpdateUserRequest request, string userId)
+    public async Task<ApiResponse<UserDetailsDto>> UpdateAsync(UpdateUserRequest request, string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return UserMgtResponse.UserNotFoundResponse();
+        }
 
-        _ = user ?? throw new NotFoundException(_t["User Not Found."]);
+        //_ = user ?? throw new NotFoundException(_t["User Not Found."]);
 
         string currentImage = user.ImageUrl ?? string.Empty;
         if (request.Image != null || request.DeleteCurrentImage)
@@ -173,13 +181,17 @@ internal partial class UserService
 
         var result = await _userManager.UpdateAsync(user);
 
+        var data = result.Adapt<UserDetailsDto>();
+
         await _signInManager.RefreshSignInAsync(user);
 
         await _events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
 
         if (!result.Succeeded)
         {
-            throw new InternalServerException(_t["Update profile failed"], result.GetErrors(_t));
+            return UserMgtResponse.UpdateFailed(result.GetErrors(_t).ToArray());
         }
+
+        return UserMgtResponse.UserUpdateSuccessResponse(data);
     }
 }

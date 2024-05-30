@@ -1,21 +1,26 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
+﻿using Mapster;
+using Microsoft.AspNetCore.WebUtilities;
 using PhotoWallArt.Application.Common.Exceptions;
 using PhotoWallArt.Application.Common.Mailing;
+using PhotoWallArt.Application.Common.ResponseObject;
+using PhotoWallArt.Application.Identity.ResponseFactory;
+using PhotoWallArt.Application.Identity.Users;
 using PhotoWallArt.Application.Identity.Users.Password;
 
 namespace PhotoWallArt.Infrastructure.Identity;
 internal partial class UserService
 {
-    public async Task<string> ForgotPasswordAsync(ForgotPasswordRequest request, string origin)
+    public async Task<ApiResponse> ForgotPasswordAsync(ForgotPasswordRequest request, string origin)
     {
         EnsureValidTenant();
 
         var user = await _userManager.FindByEmailAsync(request.Email.Normalize());
-        if (user is null || !await _userManager.IsEmailConfirmedAsync(user))
-        {
-            // Don't reveal that the user does not exist or is not confirmed
-            throw new InternalServerException(_t["An Error has occurred!"]);
-        }
+        //if (user is null || !await _userManager.IsEmailConfirmedAsync(user))
+        //{
+        //    // Don't reveal that the user does not exist or is not confirmed
+        //    return UserMgtResponse.UserNotFoundResponse();
+        //    throw new InternalServerException(_t["An Error has occurred!"]);
+        //}
 
         // For more information on how to enable account confirmation and password reset please
         // visit https://go.microsoft.com/fwlink/?LinkID=532713
@@ -29,34 +34,49 @@ internal partial class UserService
             _t[$"Your Password Reset Token is '{code}'. You can reset your password using the {endpointUri} Endpoint."]);
         _jobService.Enqueue(() => _mailService.SendAsync(mailRequest, CancellationToken.None));
 
-        return _t["Password Reset Mail has been sent to your authorized Email."];
+        return UserMgtResponse.ForgotPassWordSuccessResponse();
     }
 
-    public async Task<string> ResetPasswordAsync(ResetPasswordRequest request)
+    public async Task<ApiResponse<UserDetailsDto>> ResetPasswordAsync(ResetPasswordRequest request)
     {
         var user = await _userManager.FindByEmailAsync(request.Email?.Normalize()!);
 
         // Don't reveal that the user does not exist
-        _ = user ?? throw new InternalServerException(_t["An Error has occurred!"]);
+        if (user == null)
+        {
+            return UserMgtResponse.UserNotFoundResponse();
+        }
 
         var result = await _userManager.ResetPasswordAsync(user, request.Token!, request.Password!);
 
-        return result.Succeeded
-            ? _t["Password Reset Successful!"]
-            : throw new InternalServerException(_t["An Error has occurred!"]);
-    }
-
-    public async Task ChangePasswordAsync(ChangePasswordRequest model, string userId)
-    {
-        var user = await _userManager.FindByIdAsync(userId);
-
-        _ = user ?? throw new NotFoundException(_t["User Not Found."]);
-
-        var result = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+        var data = user.Adapt<UserDetailsDto>();
 
         if (!result.Succeeded)
         {
-            throw new InternalServerException(_t["Change password failed"], result.GetErrors(_t));
+            return UserMgtResponse.UpdateValidationError(result.GetErrors(_t).ToArray());
         }
+
+        return UserMgtResponse.PassWordUpdateSuccessResponse(data);
+    }
+
+    public async Task<ApiResponse<UserDetailsDto>> ChangePasswordAsync(ChangePasswordRequest model, string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if(user == null)
+        {
+            UserMgtResponse.UserNotFoundResponse();
+        }
+
+        var result = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+
+        var data = user.Adapt<UserDetailsDto>();
+
+        if (!result.Succeeded)
+        {
+            return UserMgtResponse.UpdateValidationError(result.GetErrors(_t).ToArray());
+        }
+
+        return UserMgtResponse.PassWordUpdateSuccessResponse(data);
     }
 }

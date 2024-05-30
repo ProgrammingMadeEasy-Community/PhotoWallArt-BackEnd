@@ -1,4 +1,5 @@
 using PhotoWallArt.Application.Auditing;
+using PhotoWallArt.Application.Common.ResponseObject;
 using PhotoWallArt.Application.Identity.Users;
 using PhotoWallArt.Application.Identity.Users.Password;
 using System.Security.Claims;
@@ -12,7 +13,7 @@ public class PersonalController : VersionNeutralApiController
 
     [HttpGet("profile")]
     [OpenApiOperation("Get profile details of currently logged in user.", "")]
-    public async Task<ActionResult<UserDetailsDto>> GetProfileAsync(CancellationToken cancellationToken)
+    public async Task<ActionResult<ApiResponse<UserDetailsDto>>> GetProfileAsync(CancellationToken cancellationToken)
     {
         return User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId)
             ? Unauthorized()
@@ -21,7 +22,7 @@ public class PersonalController : VersionNeutralApiController
 
     [HttpPut("profile")]
     [OpenApiOperation("Update profile details of currently logged in user.", "")]
-    public async Task<ActionResult> UpdateProfileAsync(UpdateUserRequest request)
+    public async Task<ActionResult<ApiResponse<UserDetailsDto>>> UpdateProfileAsync(UpdateUserRequest request)
     {
         if (User.GetUserId() is not { } userId || string.IsNullOrEmpty(userId))
         {
