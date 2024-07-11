@@ -3,6 +3,8 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PhotoWallArt.Application.Common.Exceptions;
+using PhotoWallArt.Application.Common.ResponseObject;
+using PhotoWallArt.Application.Identity.ResponseFactory;
 using PhotoWallArt.Application.Identity.Tokens;
 using PhotoWallArt.Infrastructure.Auth;
 using PhotoWallArt.Infrastructure.Auth.Jwt;
@@ -38,69 +40,76 @@ internal class TokenService : ITokenService
     }
 
 
-    public async Task<TokenResponse> GetTokenAsync(TokenRequest request, string ipAddress, CancellationToken cancellationToken)
+    public async Task<ApiResponse<TokenResponse>> GetTokenAsync(TokenRequest request, string ipAddress, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(_currentTenant?.Id)
             || await _userManager.FindByEmailAsync(request.Email.Trim().Normalize()) is not { } user
             || !await _userManager.CheckPasswordAsync(user, request.Password))
         {
-            throw new UnauthorizedException(_t["Authentication Failed."]);
+            return UserMgtResponse.UnauthorizedResponse(_t["Authentication Failed. Please confirm details"]);
         }
 
         if (!user.IsActive)
         {
-            throw new UnauthorizedException(_t["User Not Active. Please contact the administrator."]);
+            return UserMgtResponse.UnauthorizedResponse(_t["Authentication Failed. User not active, please contact the Amin"]);
         }
 
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
         {
-            throw new UnauthorizedException(_t["E-Mail not confirmed."]);
+            return UserMgtResponse.UnauthorizedResponse(_t["E-Mail not confirmed."]);
         }
-
-        if (_currentTenant.Id != MultitenancyConstants.Root.Id)
-        {
-            if (!_currentTenant.IsActive)
-            {
-                throw new UnauthorizedException(_t["Tenant is not Active. Please contact the Application Administrator."]);
-            }
-
-            if (DateTime.UtcNow > _currentTenant.ValidUpto)
-            {
-                throw new UnauthorizedException(_t["Tenant Validity Has Expired. Please contact the Application Administrator."]);
-            }
-        }
-
         return await GenerateTokensAndUpdateUser(user, ipAddress);
     }
 
-    public async Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest request, string ipAddress)
+    public async Task<ApiResponse<TokenResponse>> RefreshTokenAsync(RefreshTokenRequest request, string ipAddress)
     {
         var userPrincipal = GetPrincipalFromExpiredToken(request.Token);
         string? userEmail = userPrincipal.GetEmail();
         var user = await _userManager.FindByEmailAsync(userEmail!);
         if (user is null)
         {
-            throw new UnauthorizedException(_t["Authentication Failed."]);
+            return UserMgtResponse.UnauthorizedResponse(_t["Authentication Failed. Please confirm details"]);
         }
 
         if (user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
         {
-            throw new UnauthorizedException(_t["Invalid Refresh Token."]);
+            return UserMgtResponse.UnauthorizedResponse(_t["Invalid Refresh Token."]);
         }
 
         return await GenerateTokensAndUpdateUser(user, ipAddress);
     }
 
-    private async Task<TokenResponse> GenerateTokensAndUpdateUser(ApplicationUser user, string ipAddress)
+    private async Task<ApiResponse<TokenResponse>> GenerateTokensAndUpdateUser(ApplicationUser user, string ipAddress)
     {
         string token = GenerateJwt(user, ipAddress);
 
         user.RefreshToken = GenerateRefreshToken();
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpirationInDays);
 
-        await _userManager.UpdateAsync(user);
+        var userRoles = await _userManager.GetRolesAsync(user);
 
-        return new TokenResponse(token, user.RefreshToken, user.RefreshTokenExpiryTime);
+        string[] roles = new string[userRoles.Count];
+        for (int i = 0; i < roles.Length; i++)
+        {
+            roles[i] = userRoles[i];
+        }
+
+        var tokenResponse = new TokenResponse
+        {
+            Token = token,
+            RefreshToken = user.RefreshToken,
+            RefreshTokenExpiryTime = user.RefreshTokenExpiryTime,
+
+            Id = user.Id,
+            ImageUrl = user.ImageUrl,
+            FirstName = user.FirstName,
+            Lastname = user.LastName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            Roles = roles
+        };
+
+        return UserMgtResponse.SuccessfulLogin(tokenResponse);
     }
 
     private string GenerateJwt(ApplicationUser user, string ipAddress) =>

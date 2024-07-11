@@ -3,6 +3,7 @@ using Ardalis.Specification.EntityFrameworkCore;
 using Finbuckle.MultiTenant;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -13,7 +14,9 @@ using PhotoWallArt.Application.Common.FileStorage;
 using PhotoWallArt.Application.Common.Interfaces;
 using PhotoWallArt.Application.Common.Mailing;
 using PhotoWallArt.Application.Common.Models;
+using PhotoWallArt.Application.Common.ResponseObject;
 using PhotoWallArt.Application.Common.Specification;
+using PhotoWallArt.Application.Identity.ResponseFactory;
 using PhotoWallArt.Application.Identity.Users;
 using PhotoWallArt.Domain.Identity;
 using PhotoWallArt.Infrastructure.Auth;
@@ -43,7 +46,7 @@ internal partial class UserService : IUserService
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager,
         ApplicationDbContext db,
-        IStringLocalizer<UserService> localizer,
+        IStringLocalizer<ApiResponse<UserService>> localizer,
         IJobService jobService,
         IMailService mailService,
         IEmailTemplateService templateService,
@@ -84,6 +87,50 @@ internal partial class UserService : IUserService
         return new PaginationResponse<UserDetailsDto>(users, count, filter.PageNumber, filter.PageSize);
     }
 
+    public async Task<ApiResponse<List<UserDetailsDto>>> GetListAsync(CancellationToken cancellationToken)
+    {
+        var users = _userManager.Users.AsNoTracking().ToListAsync(cancellationToken).Adapt<List<UserDetailsDto>>();
+        await Task.CompletedTask;
+
+        return UserMgtResponse.FetchAllUsersSuccessResponse(users);
+
+    }
+
+    public async Task<ApiResponse<UserDetailsDto>> GetAsync(string userId, CancellationToken cancellationToken)
+    {
+        var user = await _userManager.Users
+            .AsNoTracking()
+            .Where(u => u.Id == userId)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (user == null)
+        {
+           return UserMgtResponse.UserNotFoundResponse();
+        }
+
+        var data = user.Adapt<UserDetailsDto>();
+
+        return UserMgtResponse.FetchUserSuccessResponse(data);
+    }
+
+    public async Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken)
+    {
+        var user = await _userManager.Users.Where(u => u.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);
+
+        _ = user ?? throw new NotFoundException(_t["User Not Found."]);
+
+        bool isAdmin = await _userManager.IsInRoleAsync(user, FSHRoles.Admin);
+        if (isAdmin)
+        {
+            throw new ConflictException(_t["Administrators Profile's Status cannot be toggled"]);
+        }
+
+        user.IsActive = request.ActivateUser;
+
+        await _userManager.UpdateAsync(user);
+
+        await _events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
+    }
+
     public async Task<bool> ExistsWithNameAsync(string name)
     {
         EnsureValidTenant();
@@ -110,43 +157,6 @@ internal partial class UserService : IUserService
         }
     }
 
-    public async Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken) =>
-        (await _userManager.Users
-                .AsNoTracking()
-                .ToListAsync(cancellationToken))
-            .Adapt<List<UserDetailsDto>>();
-
     public Task<int> GetCountAsync(CancellationToken cancellationToken) =>
-        _userManager.Users.AsNoTracking().CountAsync(cancellationToken);
-
-    public async Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken)
-    {
-        var user = await _userManager.Users
-            .AsNoTracking()
-            .Where(u => u.Id == userId)
-            .FirstOrDefaultAsync(cancellationToken);
-
-        _ = user ?? throw new NotFoundException(_t["User Not Found."]);
-
-        return user.Adapt<UserDetailsDto>();
-    }
-
-    public async Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken)
-    {
-        var user = await _userManager.Users.Where(u => u.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);
-
-        _ = user ?? throw new NotFoundException(_t["User Not Found."]);
-
-        bool isAdmin = await _userManager.IsInRoleAsync(user, FSHRoles.Admin);
-        if (isAdmin)
-        {
-            throw new ConflictException(_t["Administrators Profile's Status cannot be toggled"]);
-        }
-
-        user.IsActive = request.ActivateUser;
-
-        await _userManager.UpdateAsync(user);
-
-        await _events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
-    }
+       _userManager.Users.AsNoTracking().CountAsync(cancellationToken);
 }

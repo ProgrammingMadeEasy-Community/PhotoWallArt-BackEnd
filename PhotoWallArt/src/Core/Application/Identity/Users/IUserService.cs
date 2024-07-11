@@ -1,3 +1,4 @@
+using PhotoWallArt.Application.Common.ResponseObject;
 using PhotoWallArt.Application.Identity.Users.Password;
 using System.Security.Claims;
 
@@ -10,11 +11,11 @@ public interface IUserService : ITransientService
     Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null);
     Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null);
 
-    Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken);
+    Task<ApiResponse<List<UserDetailsDto>>> GetListAsync(CancellationToken cancellationToken);
 
     Task<int> GetCountAsync(CancellationToken cancellationToken);
 
-    Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken);
+    Task<ApiResponse<UserDetailsDto>> GetAsync(string userId, CancellationToken cancellationToken);
 
     Task<List<UserRoleDto>> GetRolesAsync(string userId, CancellationToken cancellationToken);
     Task<string> AssignRolesAsync(string userId, UserRolesRequest request, CancellationToken cancellationToken);
@@ -26,13 +27,13 @@ public interface IUserService : ITransientService
     Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken);
 
     Task<string> GetOrCreateFromPrincipalAsync(ClaimsPrincipal principal);
-    Task<string> CreateAsync(CreateUserRequest request, string origin);
-    Task UpdateAsync(UpdateUserRequest request, string userId);
+    Task<ApiResponse> CreateAsync(CreateUserRequest request, string origin);
+    Task<ApiResponse<UserDetailsDto>> UpdateAsync(UpdateUserRequest request, string userId);
 
-    Task<string> ConfirmEmailAsync(string userId, string code, string tenant, CancellationToken cancellationToken);
-    Task<string> ConfirmPhoneNumberAsync(string userId, string code);
+    Task<ApiResponse> ConfirmEmailAsync(string userId, string code, string tenant, CancellationToken cancellationToken);
+   // Task<string> ConfirmPhoneNumberAsync(string userId, string code);
 
-    Task<string> ForgotPasswordAsync(ForgotPasswordRequest request, string origin);
-    Task<string> ResetPasswordAsync(ResetPasswordRequest request);
-    Task ChangePasswordAsync(ChangePasswordRequest request, string userId);
+    Task<ApiResponse> ForgotPasswordAsync(ForgotPasswordRequest request, string origin);
+    Task<ApiResponse<UserDetailsDto>> ResetPasswordAsync(ResetPasswordRequest request);
+    Task<ApiResponse<UserDetailsDto>> ChangePasswordAsync(ChangePasswordRequest request, string userId);
 }

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using PhotoWallArt.Application.Common.Exceptions;
+using PhotoWallArt.Application.Common.ResponseObject;
+using PhotoWallArt.Application.Identity.ResponseFactory;
 using PhotoWallArt.Infrastructure.Common;
 using PhotoWallArt.Shared.Multitenancy;
 using System.Text;
@@ -22,39 +24,43 @@ internal partial class UserService
         return verificationUri;
     }
 
-    public async Task<string> ConfirmEmailAsync(string userId, string code, string tenant, CancellationToken cancellationToken)
+    public async Task<ApiResponse> ConfirmEmailAsync(string userId, string code, string tenant, CancellationToken cancellationToken)
     {
         EnsureValidTenant();
 
         var user = await _userManager.Users
             .Where(u => u.Id == userId && !u.EmailConfirmed)
             .FirstOrDefaultAsync(cancellationToken);
-
-        _ = user ?? throw new InternalServerException(_t["An error occurred while confirming E-Mail."]);
+        if(user == null)
+        {
+            return UserMgtResponse.EmailConfirmationFailed();
+        }
 
         code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
         var result = await _userManager.ConfirmEmailAsync(user, code);
+        if(!result.Succeeded)
+        {
+            return UserMgtResponse.NonGenericInternalServerError(result.GetErrors(_t).ToArray());
+        }
 
-        return result.Succeeded
-            ? string.Format(_t["Account Confirmed for E-Mail {0}. You can now use the /api/tokens endpoint to generate JWT."], user.Email)
-            : throw new InternalServerException(string.Format(_t["An error occurred while confirming {0}"], user.Email));
+        return UserMgtResponse.EmailConfirmationSuccessfull();
     }
 
-    public async Task<string> ConfirmPhoneNumberAsync(string userId, string code)
-    {
-        EnsureValidTenant();
+    //public async Task<string> ConfirmPhoneNumberAsync(string userId, string code)
+    //{
+    //    EnsureValidTenant();
 
-        var user = await _userManager.FindByIdAsync(userId);
+    //    var user = await _userManager.FindByIdAsync(userId);
 
-        _ = user ?? throw new InternalServerException(_t["An error occurred while confirming Mobile Phone."]);
-        if (string.IsNullOrEmpty(user.PhoneNumber)) throw new InternalServerException(_t["An error occurred while confirming Mobile Phone."]);
+    //    _ = user ?? throw new InternalServerException(_t["An error occurred while confirming Mobile Phone."]);
+    //    if (string.IsNullOrEmpty(user.PhoneNumber)) throw new InternalServerException(_t["An error occurred while confirming Mobile Phone."]);
 
-        var result = await _userManager.ChangePhoneNumberAsync(user, user.PhoneNumber, code);
+    //    var result = await _userManager.ChangePhoneNumberAsync(user, user.PhoneNumber, code);
 
-        return result.Succeeded
-            ? user.PhoneNumberConfirmed
-                ? string.Format(_t["Account Confirmed for Phone Number {0}. You can now use the /api/tokens endpoint to generate JWT."], user.PhoneNumber)
-                : string.Format(_t["Account Confirmed for Phone Number {0}. You should confirm your E-mail before using the /api/tokens endpoint to generate JWT."], user.PhoneNumber)
-            : throw new InternalServerException(string.Format(_t["An error occurred while confirming {0}"], user.PhoneNumber));
-    }
+    //    return result.Succeeded
+    //        ? user.PhoneNumberConfirmed
+    //            ? string.Format(_t["Account Confirmed for Phone Number {0}. You can now use the /api/tokens endpoint to generate JWT."], user.PhoneNumber)
+    //            : string.Format(_t["Account Confirmed for Phone Number {0}. You should confirm your E-mail before using the /api/tokens endpoint to generate JWT."], user.PhoneNumber)
+    //        : throw new InternalServerException(string.Format(_t["An error occurred while confirming {0}"], user.PhoneNumber));
+    //}
 }

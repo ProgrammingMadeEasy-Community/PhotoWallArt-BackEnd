@@ -1,21 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace PhotoWallArt.Application.Common.ResponseObject;
 
 public class ApiResponse<T>
 {
-    public string? Message { get; set; }
+    [JsonPropertyName("status")]
+    public bool Status { get; set; }
+
+    [JsonPropertyName("statusCode")]
     public int? StatusCode { get; set; }
-    public string? Status { get; set; }
-    public T? Data { get; set; }
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; }
+    [JsonPropertyName("data")]
+    public T Data { get; set; }
+
+    [JsonPropertyName("Errors")]
+    public string[]? Errors { get; set; }
 }
 
-public enum ResponseStatus
+public class ApiResponse
 {
-    True,
-    False,
-    Redirect,
-    InternalServerError
+    [JsonPropertyName("status")]
+    public bool Status { get; set; }
+
+    [JsonPropertyName("statusCode")]
+    public int? StatusCode { get; set; }
+
+    [JsonPropertyName("message")]
+    public string Message { get; set; }
+
+    [JsonPropertyName("Errors")]
+    public string[]? Errors { get; set; }
 }
 
 public class ResponseStatusCode

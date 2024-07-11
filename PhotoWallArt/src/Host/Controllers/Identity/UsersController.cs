@@ -1,3 +1,4 @@
+using PhotoWallArt.Application.Common.ResponseObject;
 using PhotoWallArt.Application.Identity.Users;
 using PhotoWallArt.Application.Identity.Users.Password;
 
@@ -8,10 +9,23 @@ public class UsersController : VersionNeutralApiController
 
     public UsersController(IUserService userService) => _userService = userService;
 
+    [HttpPost("self-register")]
+    [TenantIdHeader]
+    [AllowAnonymous]
+    [OpenApiOperation("Anonymous user creates a user.", "")]
+    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
+    public async Task<ApiResponse> SelfRegisterAsync(CreateUserRequest request)
+    {
+        // TODO: check if registering anonymous users is actually allowed (should probably be an appsetting)
+        // and return UnAuthorized when it isn't
+        // Also: add other protection to prevent automatic posting (captcha?)
+        return await _userService.CreateAsync(request, GetOriginFromRequest());
+    }
+
     [HttpGet]
     [MustHavePermission(FSHAction.View, FSHResource.Users)]
     [OpenApiOperation("Get list of all users.", "")]
-    public Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken)
+    public Task<ApiResponse<List<UserDetailsDto>>> GetListAsync(CancellationToken cancellationToken)
     {
         return _userService.GetListAsync(cancellationToken);
     }
@@ -19,10 +33,30 @@ public class UsersController : VersionNeutralApiController
     [HttpGet("{id}")]
     [MustHavePermission(FSHAction.View, FSHResource.Users)]
     [OpenApiOperation("Get a user's details.", "")]
-    public Task<UserDetailsDto> GetByIdAsync(string id, CancellationToken cancellationToken)
+    public Task<ApiResponse<UserDetailsDto>> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         return _userService.GetAsync(id, cancellationToken);
     }
+
+    [HttpPost("forgot-password")]
+    [AllowAnonymous]
+    [TenantIdHeader]
+    [OpenApiOperation("Request a password reset email for a user.", "")]
+    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
+    public Task<ApiResponse> ForgotPasswordAsync(ForgotPasswordRequest request)
+    {
+        return _userService.ForgotPasswordAsync(request, GetOriginFromRequest());
+    }
+
+    [HttpPost("reset-password")]
+    [OpenApiOperation("Reset a user's password.", "")]
+    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
+    public Task<ApiResponse<UserDetailsDto>> ResetPasswordAsync(ResetPasswordRequest request)
+    {
+        return _userService.ResetPasswordAsync(request);
+    }
+
+    // Admin user management Endpoints
 
     [HttpGet("{id}/roles")]
     [MustHavePermission(FSHAction.View, FSHResource.UserRoles)]
@@ -44,25 +78,12 @@ public class UsersController : VersionNeutralApiController
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.Users)]
     [OpenApiOperation("Creates a new user.", "")]
-    public Task<string> CreateAsync(CreateUserRequest request)
+    public async Task<ApiResponse> CreateAsync(CreateUserRequest request)
     {
         // TODO: check if registering anonymous users is actually allowed (should probably be an appsetting)
         // and return UnAuthorized when it isn't
         // Also: add other protection to prevent automatic posting (captcha?)
-        return _userService.CreateAsync(request, GetOriginFromRequest());
-    }
-
-    [HttpPost("self-register")]
-    [TenantIdHeader]
-    [AllowAnonymous]
-    [OpenApiOperation("Anonymous user creates a user.", "")]
-    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
-    public Task<string> SelfRegisterAsync(CreateUserRequest request)
-    {
-        // TODO: check if registering anonymous users is actually allowed (should probably be an appsetting)
-        // and return UnAuthorized when it isn't
-        // Also: add other protection to prevent automatic posting (captcha?)
-        return _userService.CreateAsync(request, GetOriginFromRequest());
+        return await _userService.CreateAsync(request, GetOriginFromRequest());
     }
 
     [HttpPost("{id}/toggle-status")]
@@ -84,37 +105,19 @@ public class UsersController : VersionNeutralApiController
     [AllowAnonymous]
     [OpenApiOperation("Confirm email address for a user.", "")]
     [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Search))]
-    public Task<string> ConfirmEmailAsync([FromQuery] string tenant, [FromQuery] string userId, [FromQuery] string code, CancellationToken cancellationToken)
+    public Task<ApiResponse> ConfirmEmailAsync([FromQuery] string tenant, [FromQuery] string userId, [FromQuery] string code, CancellationToken cancellationToken)
     {
         return _userService.ConfirmEmailAsync(userId, code, tenant, cancellationToken);
     }
 
-    [HttpGet("confirm-phone-number")]
-    [AllowAnonymous]
-    [OpenApiOperation("Confirm phone number for a user.", "")]
-    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Search))]
-    public Task<string> ConfirmPhoneNumberAsync([FromQuery] string userId, [FromQuery] string code)
-    {
-        return _userService.ConfirmPhoneNumberAsync(userId, code);
-    }
-
-    [HttpPost("forgot-password")]
-    [AllowAnonymous]
-    [TenantIdHeader]
-    [OpenApiOperation("Request a password reset email for a user.", "")]
-    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
-    public Task<string> ForgotPasswordAsync(ForgotPasswordRequest request)
-    {
-        return _userService.ForgotPasswordAsync(request, GetOriginFromRequest());
-    }
-
-    [HttpPost("reset-password")]
-    [OpenApiOperation("Reset a user's password.", "")]
-    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
-    public Task<string> ResetPasswordAsync(ResetPasswordRequest request)
-    {
-        return _userService.ResetPasswordAsync(request);
-    }
+    //[HttpGet("confirm-phone-number")]
+    //[AllowAnonymous]
+    //[OpenApiOperation("Confirm phone number for a user.", "")]
+    //[ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Search))]
+    //public Task<ApiResponse> ConfirmPhoneNumberAsync([FromQuery] string userId, [FromQuery] string code)
+    //{
+    //    return _userService.ConfirmPhoneNumberAsync(userId, code);
+    //}
 
     private string GetOriginFromRequest() => $"{Request.Scheme}://{Request.Host.Value}{Request.PathBase.Value}";
 }
