@@ -1,6 +1,7 @@
 {
   "DatabaseSettings": {
     "DBProvider": "mssql",
-    "ConnectionString": "Server = VATP-L-DEV2;User ID = sa; Password=SQL@7; Database=photowalldb; TrustServerCertificate=True; Trusted_Connection=True;"
+    //"ConnectionString": "Data Source=EXCEL\\SQLEXPRESS;Initial Catalog=photowalldb;Integrated Security=True;Connect Timeout=30;Encrypt=False"
+    "ConnectionString": "Server=host.docker.internal,49179;Database=photowalldb;User Id=vatebra;Password=SQL@7;Encrypt=False;"
   }
 }
