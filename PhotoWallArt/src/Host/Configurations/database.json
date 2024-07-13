@@ -2,6 +2,7 @@
   "DatabaseSettings": {
     "DBProvider": "mssql",
     //"ConnectionString": "Data Source=EXCEL\\SQLEXPRESS;Initial Catalog=photowalldb;Integrated Security=True;Connect Timeout=30;Encrypt=False"
-    "ConnectionString": "Server=host.docker.internal,49179;Database=photowalldb;User Id=vatebra;Password=SQL@7;Encrypt=False;"
+    "ConnectionString": "Data Source=SQL8006.site4now.net;Initial Catalog=db_a91bfa_photobook;User Id=db_a91bfa_photobook_admin;Password=123asdf@; Encrypt=false"
+    //"ConnectionString": "Server=host.docker.internal,49179;Database=photowalldb;User Id=vatebra;Password=SQL@7;Encrypt=False;"
   }
 }
