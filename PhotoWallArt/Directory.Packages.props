@@ -1,7 +1,7 @@
 <Project>
     <PropertyGroup>
-        <ManagePackageVersionCentrally>false </ManagePackageVersionCentrally>
-    </PropertyGroup>
+  <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+</PropertyGroup>
     <ItemGroup>
    
     </ItemGroup>
