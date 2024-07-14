@@ -6,7 +6,7 @@
     </PropertyGroup>
     <PropertyGroup>
         <ContainerRepository>pwa</ContainerRepository>
-        <ContainerImageTags>testdeploy</ContainerImageTags>
+        <ContainerImageTags>latest</ContainerImageTags>
         <PublishProfile>DefaultContainer</PublishProfile>
     </PropertyGroup>
     <ItemGroup>
