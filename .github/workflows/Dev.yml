@@ -1,6 +1,8 @@
 name: pwa_test_Ci
 on:
-  workflow_dispatch:
+  push:
+    branches: 
+      -Dev
 jobs:
   build:
     name: Build
