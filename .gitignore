@@ -454,3 +454,5 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/PhotoWallArt/src/Host/Configurations/hangfire.json
+/PhotoWallArt/src/Host/Configurations/database.json
