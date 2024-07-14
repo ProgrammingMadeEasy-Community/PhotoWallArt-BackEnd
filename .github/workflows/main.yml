@@ -1,4 +1,4 @@
-name: ci
+name: pwa_prod_Ci
 on:
   workflow_dispatch:
 jobs:
@@ -32,6 +32,6 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build Image
       working-directory: ./PhotoWallArt/src/Host/
-      run: dotnet publish -c Release -p:ContainerImageName=${{ secrets.DOCKER_USERNAME }}/photowallart
+      run: dotnet publish -c Release -p:ContainerImageName=${{ secrets.DOCKER_USERNAME }}/pwa_prod
     - name: Push Image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/photowallart --all-tags
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/pwa_prod --all-tags
