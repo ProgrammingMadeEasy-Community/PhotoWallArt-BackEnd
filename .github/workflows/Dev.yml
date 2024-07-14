@@ -2,7 +2,7 @@ name: pwa_test_Ci
 on:
   push:
     branches: 
-      -Dev
+      - Dev
 jobs:
   build:
     name: Build
